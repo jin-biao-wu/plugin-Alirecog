@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{41a9ce71-3ef6-4c4a-8cb1-aed0ea9ad120}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{e92be35b-02e6-4c4b-93dd-22f30634adce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\sdk">
+      <UniqueIdentifier>{c73570cd-02dc-4867-86ae-6c6d7b69d578}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\sdk\nlsCommon">
+      <UniqueIdentifier>{5af78b21-1907-42cb-afe6-a5535d7dd977}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\sdk\nlsCpp">
+      <UniqueIdentifier>{53b1af3f-887c-4b73-a62b-8fefc6d655c7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Ali_recog_engine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_channel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_channel_factory.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_recog_pool.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AliEngine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Ali_channel.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\iNlsRequest.h">
+      <Filter>include\sdk\nlsCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\nlsClient.h">
+      <Filter>include\sdk\nlsCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\nlsEvent.h">
+      <Filter>include\sdk\nlsCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\nlsGlobal.h">
+      <Filter>include\sdk\nlsCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\speechRecognizerRequest.h">
+      <Filter>include\sdk\nlsCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\speechRecognizerSyncRequest.h">
+      <Filter>include\sdk\nlsCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\speechSynthesizerRequest.h">
+      <Filter>include\sdk\nlsCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\speechTranscriberRequest.h">
+      <Filter>include\sdk\nlsCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\speechTranscriberSyncRequest.h">
+      <Filter>include\sdk\nlsCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\nlsCommonSdk\FileTrans.h">
+      <Filter>include\sdk\nlsCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\nlsCommonSdk\Global.h">
+      <Filter>include\sdk\nlsCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\nlsCommonSdk\Token.h">
+      <Filter>include\sdk\nlsCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_channel_factory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_define.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_recog_pool.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AliEngine.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RecogEngine.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

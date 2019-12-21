@@ -1,0 +1,75 @@
+INTRODUCTION
+============
+
+This package contains 3-rd party libraries and tools required to build the UniMRCP project.
+
+1. APR (Apache Portable Runtime) library
+
+* Description: APR is the base portability library.
+* Version: 1.5.2
+* Base: http://www.unimrcp.org/dependencies/apr-1.5.2-win32-src.zip
+* Patches: http://www.unimrcp.org/dependencies/apr-1.5.2-patches.zip
+* Notes:
+  * In the original distribution of the APR library, which can be downloaded from the location
+    specified above, operations on memory pools are not thread-safe. Whereas, the version of the
+    APR library included in this package is patched to make the memory pools thread-safe.
+
+2. APR-util (Apache Portable Runtime Utilities) library
+
+* Description: APR-util provides a number of helpful abstractions on top of APR.
+* Version: 1.5.4
+* Base: http://www.unimrcp.org/dependencies/apr-util-1.5.4-win32-src.zip
+* Patches: http://www.unimrcp.org/dependencies/apr-util-1.5.4-patches.zip
+* Notes: APU_HAVE_APR_ICONV and APU_HAVE_ODBC are disabled.
+
+3. Sofia-SIP library
+
+* Description: Sofia-SIP is a SIP User-Agent library, compliant with the IETF RFC3261 specification.
+* Version: 1.12.11-239-g54ef3e2
+* Repository: https://github.com/unispeech/sofia-sip
+* Notes:
+  * The version of the Sofia-SIP library included in this package is checked out from the GitHub 
+    repository unispeech/sofia-sip. This is a clone of the Sofia-SIP library maintained for needs of
+    the UniMRCP project.
+  * The source files are checked out from git using core.autocrlf set to true. The tool mawk.exe is
+    used by the script autogen.cmd to prepare the source tree for Windows build. This allows all
+    text files to have the native file ending.
+
+4. Pthreads-win32
+
+* Description: Pthreads-win32 provides the POSIX threads API for Windows.
+* Version: 2.9.1
+* Base: http://www.unimrcp.org/dependencies/pthreads-w32-2-9-1-release.tar.gz
+* Patches: http://www.unimrcp.org/dependencies/pthreads-w32-2.9.1-patches.tar.gz
+
+
+COMPATIBILITY
+=============
+
+This package is compatible with UniMRCP 1.1.0 r1930 and above.
+
+
+INSTALLATION
+============
+
+Prerequisites:
+
+Before building the dependencies included in this package, retrieve a source distribution of the
+UniMRCP project and extract its content into a local directory.
+
+Procedure:
+
+1. Extract the package content into the UniMRCP source directory.
+2. Open one of the available solution files and build the solution.
+   For Visual Studio 2005, use unimrcpdeps.sln.
+   For Visual Studio 2010 and above, use unimrcpdeps-2010.sln.
+
+
+REFERENCES
+==========
+
+* http://www.unimrcp.org/downloads/dependencies
+* http://www.unimrcp.org/dependencies
+* http://apr.apache.org
+* http://sofia-sip.sourceforge.net
+* http://sourceware.org/pthreads-win32

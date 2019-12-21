@@ -1,0 +1,53 @@
+﻿  Creating apr_ldap.h from apr_ldap.hw
+  Creating apu.h from apu.hw
+  Creating apu_config.h from apu_config.hw
+  Creating apu_select_dbm.h from apu_select_dbm.hw
+  Creating apu_want.h from apu_want.hw
+  apr_brigade.c
+  apr_buckets.c
+  apr_buckets_alloc.c
+  apr_buckets_eos.c
+  apr_buckets_file.c
+  apr_buckets_flush.c
+  apr_buckets_heap.c
+  apr_buckets_mmap.c
+  apr_buckets_pipe.c
+  apr_buckets_pool.c
+  apr_buckets_refcount.c
+  apr_buckets_simple.c
+  apr_buckets_socket.c
+  apr_md4.c
+  apr_md5.c
+  apr_sha1.c
+  getuuid.c
+  uuid.c
+  apr_dbd.c
+  apr_dbm.c
+  正在生成代码...
+  正在编译...
+  apr_dbm_sdbm.c
+  apr_base64.c
+  apr_hooks.c
+  apr_ldap_stub.c
+  apr_ldap_url.c
+  apr_memcache.c
+  apr_date.c
+  apr_queue.c
+  apr_reslist.c
+  apr_rmm.c
+  apr_thread_pool.c
+  apu_dso.c
+  apu_version.c
+  sdbm.c
+  sdbm_hash.c
+  sdbm_lock.c
+  sdbm_pair.c
+  apr_strmatch.c
+  apr_uri.c
+  xlate.c
+  正在生成代码...
+  正在编译...
+  apr_xml.c
+  正在生成代码...
+    正在创建库 Debug\libaprutil-1.lib 和对象 Debug\libaprutil-1.exp
+  libaprutil.vcxproj -> D:\src\unimrcp\New\unimrcp-deps-1.6.0\libs\apr-util\Debug\libaprutil-1.dll
