@@ -121,13 +121,13 @@
 		
 
 		<!--设置 appKey 必填参数, 请参照官网申请-->
-		<param name="appKey" value="qTyRS1b9fuuxlsOl"/>
+		<param name="appKey" value=""/>
 		
 		<!--设置 AccessKeyID 必填参数, 请参照官网申请-->
-		<param name="AccessKeyID" value="LTAIMTodkJw0Cq0h"/>
+		<param name="AccessKeyID" value=""/>
 		
 		<!--设置 AccessKeySecret 必填参数, 请参照官网申请-->
-		<param name="AccessKeySecret" value="hG9byLekq414gbub64C5lw7dR6EnBq"/>
+		<param name="AccessKeySecret" value=""/>
 		
 		<!--设置音频数据编码格式字段Format 可选参数, 目前支持pcm|opus|opu. 默认是pcm-->
 		<param name="Format" value="pcm"/>
