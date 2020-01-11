@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{9cdc2a67-5c2f-4554-9337-704d947596bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{267be691-668b-4b98-93d8-96e04b8bff19}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Ali_define.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_Synth_pool.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_Synth_util.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_SynthChannel.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_SynthChannelFactory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_SynthEngine.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SynthEngine.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Ali_Synth_engine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_Synth_pool.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_Synth_util.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_SynthChannel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_SynthChannelFactory.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_SynthEngine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

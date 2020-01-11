@@ -214,5 +214,5 @@ void CAliEngine::AliNlsClientInit(const char* logPath)
 
 void CAliEngine::AliNlsClientUinit()
 {
-	NlsClient::getInstance()->releaseInstance();
+	NlsClient::releaseInstance();
 }

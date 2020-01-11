@@ -111,15 +111,13 @@
 
     <!-- Factory of plugins (MRCP engines) -->
     <plugin-factory>
-      <engine id="Demo-Synth-1" name="demosynth" enable="true"/>
+      <engine id="Demo-Synth-1" name="demosynth" enable="false"/>
       <engine id="Demo-Recog-1" name="demorecog" enable="false"/>
       <engine id="Demo-Verifier-1" name="demoverifier" enable="true"/>
       <engine id="Recorder-1" name="mrcprecorder" enable="true"/>
-	  
-	  <engine id="AliRecorder-1" name="Alirecog" enable="true">
+	 	  
+	  <engine id="Ali-Recorder-1" name="Alirecog" enable="true">
 		<max-channel-count>20</max-channel-count>
-		
-
 		<!--设置 appKey 必填参数, 请参照官网申请-->
 		<param name="appKey" value=""/>
 		
@@ -136,7 +134,7 @@
 		<param name="SampleRate" value="8000"/>
 		
 		<!--Ali SDK 日志，必须是绝对路径-->
-		<param name="LogDir" value="D:\src\unimrcp\New\unimrcp-1.6.0\platforms\aliskd.log"/>	
+		<param name="LogDir" value="D:\src\unimrcp\New\unimrcp-1.6.0\platforms\ali-recog-skd.log"/>	
 		
 		<!--设置一句话识别服务URL地址 如果是云端，不需要填-->
 		<param name="SpeechRecogUrl" value=""/>
@@ -189,6 +187,45 @@
         <param name="..." value="..."/>
       </engine>
       -->
+	  <engine id="Ali-Synth-1" name="Alisynth" enable="true">
+		<max-channel-count>2</max-channel-count>
+		<!--设置 appKey 必填参数, 请参照官网申请-->
+		<param name="appKey" value=""/>
+		
+		<!--设置 AccessKeyID 必填参数, 请参照官网申请-->
+		<param name="AccessKey" value=""/>
+		
+		<!--设置 AccessKeySecret 必填参数, 请参照官网申请-->
+		<param name="AccessSecret" value=""/>
+		
+		<!--设置 发音人 可选参数, 请参照官网sdk文档-->
+		<param name="voice" value="Sijia"/>
+		
+		<!--设置 返回的数据的格式  可选参数, 请参照官网sdk文档（其实代码已经写死pcm） -->
+		<param name="format" value="pcm"/>
+		
+		<!--设置 音频的采样率，可选参数, 请参照官网sdk文档 对于mrcpserver 最好8000 -->
+		<param name="sample" value="8000"/>
+		
+		<!--设置 音量 可选参数, 请参照官网sdk文档-->
+		<param name="volume" value="50"/>
+		
+		<!--设置 语速 可选参数, 请参照官网sdk文档-->
+		<param name="speech" value="0"/>
+		
+		<!--设置 语调 可选参数, 请参照官网sdk文档-->
+		<param name="pitch" value="0"/>
+		
+		<!--Ali SDK 日志，必须是绝对路径-->
+		<param name="LogDir" value="D:\src\unimrcp\New\unimrcp-1.6.0\platforms\ali-synth-skd.log"/>	
+		<!--录音文件的路径，必须是绝对路径-->
+		<param name="recordPath" value="D:\src\unimrcp\New\unimrcp-1.6.0\platforms\var"/>
+		
+		<!--是否录音 可选-->
+		<param name="record" value="true"/>	
+		
+	  </engine>
+	  
     </plugin-factory>
   </components>
 

@@ -160,7 +160,7 @@ apt_bool_t	AliChannel::Start()
 		char szFileName[255] = { 0 };
 		string FileName = "";
 		const mpf_codec_descriptor_t *descriptor = mrcp_engine_sink_stream_codec_get(m_Ch->channel);
-		apr_snprintf(szFileName, sizeof(szFileName), "[Channel-%s]-[%d-Hz]-[Date-%s].pcm",
+		apr_snprintf(szFileName, sizeof(szFileName), "[recog]-[Channel-%s]-[%d-Hz]-[Date-%s].pcm",
 			m_Ch->channel->id.buf, descriptor->sampling_rate, TimeToStr(apr_time_now(), "%Y-%m-%d %H-%M-%S").c_str());
 
 		if (m_recordPath[m_recordPath.length() - 1] == PATHDIA) {

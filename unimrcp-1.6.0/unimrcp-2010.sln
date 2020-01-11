@@ -92,6 +92,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "demoverifier", "plugins\dem
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Alirecog", "plugins\Alirecog\Alirecog.vcxproj", "{DC87D1A6-DCB4-43CC-AC79-339C856A09F9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Alisynth", "plugins\Alisynth\Alisynth.vcxproj", "{4031FDC2-7CC7-4614-9E5F-5B7471980304}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -334,6 +336,14 @@ Global
 		{DC87D1A6-DCB4-43CC-AC79-339C856A09F9}.Release|Win32.Build.0 = Release|Win32
 		{DC87D1A6-DCB4-43CC-AC79-339C856A09F9}.Release|x64.ActiveCfg = Release|x64
 		{DC87D1A6-DCB4-43CC-AC79-339C856A09F9}.Release|x64.Build.0 = Release|x64
+		{4031FDC2-7CC7-4614-9E5F-5B7471980304}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4031FDC2-7CC7-4614-9E5F-5B7471980304}.Debug|Win32.Build.0 = Debug|Win32
+		{4031FDC2-7CC7-4614-9E5F-5B7471980304}.Debug|x64.ActiveCfg = Debug|x64
+		{4031FDC2-7CC7-4614-9E5F-5B7471980304}.Debug|x64.Build.0 = Debug|x64
+		{4031FDC2-7CC7-4614-9E5F-5B7471980304}.Release|Win32.ActiveCfg = Release|Win32
+		{4031FDC2-7CC7-4614-9E5F-5B7471980304}.Release|Win32.Build.0 = Release|Win32
+		{4031FDC2-7CC7-4614-9E5F-5B7471980304}.Release|x64.ActiveCfg = Release|x64
+		{4031FDC2-7CC7-4614-9E5F-5B7471980304}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -370,5 +380,6 @@ Global
 		{5AFB8B04-AEB9-408C-B53E-AFBC44B5F3F2} = {09BABD45-8F30-4F99-B8B8-8DD78F6804DB}
 		{F7563CAD-5C95-46E5-89B7-0953C6C6E746} = {09BABD45-8F30-4F99-B8B8-8DD78F6804DB}
 		{DC87D1A6-DCB4-43CC-AC79-339C856A09F9} = {09BABD45-8F30-4F99-B8B8-8DD78F6804DB}
+		{4031FDC2-7CC7-4614-9E5F-5B7471980304} = {09BABD45-8F30-4F99-B8B8-8DD78F6804DB}
 	EndGlobalSection
 EndGlobal
