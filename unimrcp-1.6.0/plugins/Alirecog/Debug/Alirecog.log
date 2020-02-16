@@ -1,8 +1,10 @@
-﻿  Ali_recog_pool.cpp
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Alirecorg.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Ali_recog_engine.cpp
-  Ali_channel_factory.cpp
-  Ali_channel.cpp
-  AliEngine.cpp
+  Ali_RecogUtil.cpp
+  Ali_RecogPool.cpp
+  Ali_RecogEngine.cpp
+  Ali_RecogChannelFactory.cpp
+  Ali_RecogChannel.cpp
   正在生成代码...
-    正在创建库 D:\git\unimrcp\unimrcp-1.6.0\Debug\plugin\Alirecog.lib 和对象 D:\git\unimrcp\unimrcp-1.6.0\Debug\plugin\Alirecog.exp
-  Alirecog.vcxproj -> D:\git\unimrcp\unimrcp-1.6.0\Debug\plugin\Alirecog.dll
+    正在创建库 D:\src\unimrcp\New\unimrcp-1.6.0\Debug\plugin\Alirecog.lib 和对象 D:\src\unimrcp\New\unimrcp-1.6.0\Debug\plugin\Alirecog.exp
+  Alirecog.vcxproj -> D:\src\unimrcp\New\unimrcp-1.6.0\Debug\plugin\Alirecog.dll

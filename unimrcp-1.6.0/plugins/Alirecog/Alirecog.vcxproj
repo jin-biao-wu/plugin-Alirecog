@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{DC87D1A6-DCB4-43CC-AC79-339C856A09F9}</ProjectGuid>
-    <RootNamespace>Alirecog</RootNamespace>
+    <ProjectGuid>{99E8C3A2-C50D-487F-B41E-C3EB337887D7}</ProjectGuid>
+    <RootNamespace>Alirecorg</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -28,14 +28,14 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -57,8 +57,8 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\build\props\unidebug.props" />
     <Import Project="..\..\build\props\uniplugin.props" />
+    <Import Project="..\..\build\props\unidebug.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -82,17 +82,14 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\src\unimrcp\New\unimrcp-1.6.0\plugins\Alirecog\aliSdk2.0\NlsSdkCpp2.0\include\pthread;D:\src\unimrcp\New\unimrcp-1.6.0\plugins\Alirecog\aliSdk2.0\NlsSdkCpp2.0\include;D:\src\unimrcp\New\unimrcp-1.6.0\plugins\Alirecog\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
-      <AdditionalIncludeDirectories>D:\src\unimrcp\New\unimrcp-1.6.0\plugins\Alirecog\aliSdk2.0\NlsSdkCpp2.0\include\pthread;D:\src\unimrcp\New\unimrcp-1.6.0\plugins\Alirecog\aliSdk2.0\NlsSdkCpp2.0\include;D:\src\unimrcp\New\unimrcp-1.6.0\plugins\Alirecog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HAVE_STRUCT_TIMESPEC;NLS_SDK_DECL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>D:\src\unimrcp\New\unimrcp-1.6.0\plugins\Alirecog\aliSdk2.0\NlsSdkCpp2.0\lib\windows\14.0\x86\pthread;D:\src\unimrcp\New\unimrcp-1.6.0\plugins\Alirecog\aliSdk2.0\NlsSdkCpp2.0\lib\windows\14.0\x86\Debug;D:\src\unimrcp\New\unimrcp-1.6.0\Debug\plugin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\src\unimrcp\New\unimrcp-1.6.0\Debug\plugin;D:\src\unimrcp\New\unimrcp-1.6.0\plugins\Alirecog\aliSdk2.0\NlsSdkCpp2.0\lib\windows\14.0\x86\Debug;D:\src\unimrcp\New\unimrcp-1.6.0\plugins\Alirecog\aliSdk2.0\NlsSdkCpp2.0\lib\windows\14.0\x86\pthread;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>jsoncpp-0.y.z.lib;libcurld.lib;libeay32.lib;nlsCommonSdk.lib;nlsCppOpu.lib;nlsCppSdk.lib;ssleay32.lib;pthreadVC2.lib;pthreadVCE2.lib;pthreadVSE2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <ProjectReference>
-      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
-    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -108,7 +105,6 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>HAVE_STRUCT_TIMESPEC;NLS_SDK_DECL_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -129,31 +125,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\AliEngine.cpp" />
-    <ClCompile Include="src\Ali_channel.cpp" />
-    <ClCompile Include="src\Ali_channel_factory.cpp" />
-    <ClCompile Include="src\Ali_recog_engine.cpp" />
-    <ClCompile Include="src\Ali_recog_pool.cpp" />
+    <ClInclude Include="include\Ali_RecogChannel.h" />
+    <ClInclude Include="include\Ali_RecogChannelFactory.h" />
+    <ClInclude Include="include\Ali_RecogDefine.h" />
+    <ClInclude Include="include\Ali_RecogEngine.h" />
+    <ClInclude Include="include\Ali_RecogPool.h" />
+    <ClInclude Include="include\Ali_RecogUtil.h" />
+    <ClInclude Include="include\RecogEngine.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\iNlsRequest.h" />
-    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\nlsClient.h" />
-    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\nlsCommonSdk\FileTrans.h" />
-    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\nlsCommonSdk\Global.h" />
-    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\nlsCommonSdk\Token.h" />
-    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\nlsEvent.h" />
-    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\nlsGlobal.h" />
-    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\speechRecognizerRequest.h" />
-    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\speechRecognizerSyncRequest.h" />
-    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\speechSynthesizerRequest.h" />
-    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\speechTranscriberRequest.h" />
-    <ClInclude Include="aliSdk2.0\NlsSdkCpp2.0\include\speechTranscriberSyncRequest.h" />
-    <ClInclude Include="include\AliEngine.h" />
-    <ClInclude Include="include\Ali_channel.h" />
-    <ClInclude Include="include\Ali_channel_factory.h" />
-    <ClInclude Include="include\Ali_define.h" />
-    <ClInclude Include="include\Ali_recog_pool.h" />
-    <ClInclude Include="include\RecogEngine.h" />
+    <ClCompile Include="src\Ali_RecogChannel.cpp" />
+    <ClCompile Include="src\Ali_RecogChannelFactory.cpp" />
+    <ClCompile Include="src\Ali_RecogEngine.cpp" />
+    <ClCompile Include="src\Ali_RecogPool.cpp" />
+    <ClCompile Include="src\Ali_RecogUtil.cpp" />
+    <ClCompile Include="src\Ali_recog_engine.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

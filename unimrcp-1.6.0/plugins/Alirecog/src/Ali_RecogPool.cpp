@@ -1,19 +1,4 @@
-#include"Ali_recog_pool.h"
-
-
-CRecogPool::CRecogPool():
-	m_thread_pool(NULL),
-	m_init_threads(0),
-	m_max_threads(0),
-	m_pool(0)
-{
-
-}
-
-CRecogPool::~CRecogPool()
-{
-
-}
+#include"Ali_RecogPool.h"
 
 
 apr_status_t CRecogPool::Init(apr_pool_t* pool, apr_size_t m_init_threads, apr_size_t m_max_threads)

@@ -7,20 +7,21 @@
 //#include"apt.h"
 
 template<class Channel>
-class CRecogEngine {
-
+class CRecogEngine 
+{
 public:
-	CRecogEngine() {};
-	virtual ~CRecogEngine() {};
+	CRecogEngine()noexcept { }
+	virtual ~CRecogEngine()noexcept { }
 private:
 	CRecogEngine(CRecogEngine&);
 	CRecogEngine& operator=(CRecogEngine&);
 public:
-	bool virtual	EngineInit(mrcp_engine_t* engine)=0;
-	void virtual	EngineUinit() = 0;
-	bool virtual	EngineReocgStart(Channel * pCh) = 0;
-	int  virtual	EngineWriteFrame(Channel * pCh,const mpf_frame_t *frame) = 0;
-	bool virtual	EngineReocgStop(Channel * pCh) = 0;
+	virtual	bool		EngineInit(mrcp_engine_t* engine)= 0;
+	virtual	void		EngineUinit() = 0;
+	virtual	bool		EngineReocgStart(Channel * pCh) = 0;
+	virtual	int			EngineWriteFrame(Channel * pCh,const mpf_frame_t *frame) = 0;
+	virtual	bool		EngineReocgStop(Channel * pCh) = 0;
+	virtual	const char* EngineResultGet(Channel * pCh) = 0;
 public:
 	static CRecogEngine<Channel>* recogEngine;
 };

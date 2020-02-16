@@ -31,14 +31,13 @@
 //#include "mpf_activity_detector.h"
 //#include "apt_consumer_task.h"
 //#include "apt_log.h"
-#include"Ali_channel_factory.h"
-#include"Ali_channel.h"
-#include"Ali_recog_pool.h"
-#include"AliEngine.h"
-//#include"Ali_define.h"
+//#include"Ali_recog_define.h"
+#include"Ali_RecogEngine.h"
+#include"Ali_RecogDefine.h"
 
 #define RECOG_ENGINE_TASK_NAME "Ali Recog Engine"
 
+using AliEngine = CRecogEngine<Ali_recog_channel_t>;
 typedef struct Ali_recog_engine_t Ali_recog_engine_t;
 typedef struct Ali_recog_channel_t Ali_recog_channel_t;
 typedef struct Ali_recog_msg_t Ali_recog_msg_t;
@@ -100,15 +99,12 @@ MRCP_PLUGIN_VERSION_DECLARE
  * Enable/add the corresponding entry in logger.xml to set a cutsom log source priority.
  *    <source name="RECOG-PLUGIN" priority="DEBUG" masking="NONE"/>
  */
-MRCP_PLUGIN_LOG_SOURCE_IMPLEMENT(ALI_LOG_RECOG_PLUGIN,"RECOG-PLUGIN")
-
-///** Use custom log source mark */
-//#define RECOG_LOG_MARK   APT_LOG_MARK_DECLARE(RECOG_PLUGIN)
+MRCP_PLUGIN_LOG_SOURCE_IMPLEMENT(ALI_LOG_RECOG_PLUGIN,"ALI-RECOG-PLUGIN")
 
 /** Create Ali recognizer engine */
 MRCP_PLUGIN_DECLARE(mrcp_engine_t*) mrcp_plugin_create(apr_pool_t *pool)
 {
-	Ali_recog_engine_t *Ali_engine =(Ali_recog_engine_t*) apr_palloc(pool,sizeof(Ali_recog_engine_t));
+	Ali_recog_engine_t *Ali_engine =(Ali_recog_engine_t *) apr_palloc(pool,sizeof(Ali_recog_engine_t));
 	apt_task_t *task;
 	apt_task_vtable_t *vtable;
 	apt_task_msg_pool_t *msg_pool;
@@ -136,7 +132,7 @@ MRCP_PLUGIN_DECLARE(mrcp_engine_t*) mrcp_plugin_create(apr_pool_t *pool)
 /** Destroy recognizer engine */
 static apt_bool_t Ali_recog_engine_destroy(mrcp_engine_t *engine)
 {
-	Ali_recog_engine_t *Ali_engine = (Ali_recog_engine_t*)engine->obj;
+	Ali_recog_engine_t *Ali_engine =(Ali_recog_engine_t *) engine->obj;
 	if(Ali_engine->task) {
 		apt_task_t *task = apt_consumer_task_base_get(Ali_engine->task);
 		apt_task_destroy(task);
@@ -148,30 +144,19 @@ static apt_bool_t Ali_recog_engine_destroy(mrcp_engine_t *engine)
 /** Open recognizer engine */
 static apt_bool_t Ali_recog_engine_open(mrcp_engine_t *engine)
 {
-	Ali_recog_engine_t *Ali_engine = (Ali_recog_engine_t*)engine->obj;
+	Ali_recog_engine_t *Ali_engine = (Ali_recog_engine_t *)engine->obj;
 	if(Ali_engine->task) {
 		apt_task_t *task = apt_consumer_task_base_get(Ali_engine->task);
 		apt_task_start(task);
 	}
-/*
-	apt_bool_t respond = TRUE;
-	if (!AliChannelFactory::GetAliChannelFactory()->Init(engine)) {
-		LOG_ERROR("Ali recog Factory init falied...");
-		respond = FALSE;
-	}
 
-	if (APR_SUCCESS != CRecogPool::GetRecogPool()->Init(engine->pool, 1, 10)) {
-		LOG_ERROR("Ali recog Pool init falied...");
-		respond = FALSE;
+	AliEngine::recogEngine = CAliRecogEngine::GetAliRecogEngine();
+	if (AliEngine::recogEngine) {
+		if (!AliEngine::recogEngine->EngineInit(engine)) {
+			LOG_ERROR("<---------- Engine Init Failed ---------->")
+		}
+		//LOG_INFO()
 	}
-*/
-
-	CRecogEngine<Ali_recog_channel>::recogEngine = CAliEngine::GetAliEngine();
-	if (!CRecogEngine<Ali_recog_channel>::recogEngine->EngineInit(engine)) {
-		LOG_ERROR("Ali recog engine failed ...");
-	}
-
-	LOG_INFO("<------- Ali recog engine init success ...------>")
 
 	return mrcp_engine_open_respond(engine,TRUE);
 }
@@ -179,16 +164,16 @@ static apt_bool_t Ali_recog_engine_open(mrcp_engine_t *engine)
 /** Close recognizer engine */
 static apt_bool_t Ali_recog_engine_close(mrcp_engine_t *engine)
 {
-	Ali_recog_engine_t *Ali_engine = (Ali_recog_engine_t*)engine->obj;
+	Ali_recog_engine_t *Ali_engine = (Ali_recog_engine_t *)engine->obj;
 	if(Ali_engine->task) {
 		apt_task_t *task = apt_consumer_task_base_get(Ali_engine->task);
 		apt_task_terminate(task,TRUE);
 	}
 
-	//CAliEngine::GetAliEngine()->EngineUinit();
-	CRecogEngine<Ali_recog_channel>::recogEngine->EngineUinit();
-
-	LOG_INFO("<------- Ali recog engine uninit ...------>")
+	if (AliEngine::recogEngine) {
+		AliEngine::recogEngine->EngineUinit();
+		LOG_INFO("<----------- Engine uninit success ----------> ")
+	}
 
 	return mrcp_engine_close_respond(engine);
 }
@@ -200,7 +185,7 @@ static mrcp_engine_channel_t* Ali_recog_engine_channel_create(mrcp_engine_t *eng
 
 	/* create Ali recog channel */
 	Ali_recog_channel_t *recog_channel = (Ali_recog_channel_t *)apr_palloc(pool,sizeof(Ali_recog_channel_t));
-	recog_channel->Ali_engine =(Ali_recog_engine_t *) engine->obj;
+	recog_channel->Ali_engine = (Ali_recog_engine_t *)engine->obj;
 	recog_channel->recog_request = NULL;
 	recog_channel->stop_response = NULL;
 	recog_channel->detector = mpf_activity_detector_create(pool);
@@ -227,40 +212,36 @@ static mrcp_engine_channel_t* Ali_recog_engine_channel_create(mrcp_engine_t *eng
 			termination,          /* associated media termination */
 			pool);                /* pool to allocate memory from */
 
-	//LOG_INFO("<---------- Ali recog engine channel create --------------->");
-	apt_log(ALI_RECOG_LOG_MARK, APT_PRIO_INFO, "<---------- Ali recog engine channel create --------------->");
-
+	apt_log(ALI_RECOG_LOG_MARK, APT_PRIO_INFO, "<----- recog_channel create ----->");
 	return recog_channel->channel;
 }
 
 /** Destroy engine channel */
 static apt_bool_t Ali_recog_channel_destroy(mrcp_engine_channel_t *channel)
 {
-	//LOG_INFO("<---- Ali recog channel destroy ---->");
-	apt_log(ALI_RECOG_LOG_MARK, APT_PRIO_INFO, "<------- stream recog close channel ----->");
 	/* nothing to destrtoy */
+	apt_log(ALI_RECOG_LOG_MARK, APT_PRIO_INFO, "<----- recog_channel Destroy ----->");
 	return TRUE;
 }
 
 /** Open engine channel (asynchronous response MUST be sent)*/
 static apt_bool_t Ali_recog_channel_open(mrcp_engine_channel_t *channel)
 {
-	apt_log(ALI_RECOG_LOG_MARK, APT_PRIO_INFO, "<---------- Ali recog engine channel open --------------->");
+	apt_log(ALI_RECOG_LOG_MARK, APT_PRIO_INFO, "<----- Ali_recog_channel Open  ----->");
 	return Ali_recog_msg_signal(Ali_RECOG_MSG_OPEN_CHANNEL,channel,NULL);
 }
 
 /** Close engine channel (asynchronous response MUST be sent)*/
 static apt_bool_t Ali_recog_channel_close(mrcp_engine_channel_t *channel)
 {
-
-	//LOG_INFO("<---- Ali recog channel close ---->");
-	apt_log(ALI_RECOG_LOG_MARK, APT_PRIO_INFO, "<------- stream recog close channel ----->");
+	apt_log(ALI_RECOG_LOG_MARK, APT_PRIO_INFO, "<----- Ali_recog_channel Close  ----->");
 	return Ali_recog_msg_signal(Ali_RECOG_MSG_CLOSE_CHANNEL,channel,NULL);
 }
 
 /** Process MRCP channel request (asynchronous response MUST be sent)*/
 static apt_bool_t Ali_recog_channel_request_process(mrcp_engine_channel_t *channel, mrcp_message_t *request)
 {
+
 	return Ali_recog_msg_signal(Ali_RECOG_MSG_REQUEST_PROCESS,channel,request);
 }
 
@@ -294,27 +275,28 @@ static apt_bool_t Ali_recog_channel_recognize(mrcp_engine_channel_t *channel, mr
 		}
 	}
 
-/*
-	if(!recog_channel->audio_out) {
-		const apt_dir_layout_t *dir_layout = channel->engine->dir_layout;
-		char *file_name = apr_psprintf(channel->pool,"utter-%dkHz-%s.pcm",
-							descriptor->sampling_rate/1000,
-							request->channel_id.session_id.buf);
-		char *file_path = apt_vardir_filepath_get(dir_layout,file_name,channel->pool);
-		if(file_path) {
-			apt_log(ALI_RECOG_LOG_MARK,APT_PRIO_INFO,"Open Utterance Output File [%s] for Writing",file_path);
-			recog_channel->audio_out = fopen(file_path,"wb");
-			if(!recog_channel->audio_out) {
-				apt_log(ALI_RECOG_LOG_MARK,APT_PRIO_WARNING,"Failed to Open Utterance Output File [%s] for Writing",file_path);
-			}
+	//if(!recog_channel->audio_out) {
+	//	const apt_dir_layout_t *dir_layout = channel->engine->dir_layout;
+	//	char *file_name = apr_psprintf(channel->pool,"utter-%dkHz-%s.pcm",
+	//						descriptor->sampling_rate/1000,
+	//						request->channel_id.session_id.buf);
+	//	char *file_path = apt_vardir_filepath_get(dir_layout,file_name,channel->pool);
+	//	if(file_path) {
+	//		apt_log(RECOG_LOG_MARK,APT_PRIO_INFO,"Open Utterance Output File [%s] for Writing",file_path);
+	//		recog_channel->audio_out = fopen(file_path,"wb");
+	//		if(!recog_channel->audio_out) {
+	//			apt_log(RECOG_LOG_MARK,APT_PRIO_WARNING,"Failed to Open Utterance Output File [%s] for Writing",file_path);
+	//		}
+	//	}
+	//}
+
+	if (AliEngine::recogEngine) {
+		if (!AliEngine::recogEngine->EngineReocgStart(recog_channel)) {
+			LOG_ERROR("Engine Recog Start Failed ! ! !");
 		}
 	}
-*/
 
-	LOG_INFO("<----------------------------Process RECOGNIZE request ---------------------->")
-	if (!CRecogEngine<Ali_recog_channel>::recogEngine->EngineReocgStart(recog_channel)) {
-		LOG_ERROR("<---- Ali recog start failed Ch:%s ----> ",recog_channel->channel->id.buf);
-	}
+	apt_log(ALI_RECOG_LOG_MARK, APT_PRIO_INFO, "<----- Process RECOGNIZE request ----->");
 
 	response->start_line.request_state = MRCP_REQUEST_STATE_INPROGRESS;
 	/* send asynchronous response */
@@ -330,7 +312,8 @@ static apt_bool_t Ali_recog_channel_stop(mrcp_engine_channel_t *channel, mrcp_me
 	Ali_recog_channel_t *recog_channel = (Ali_recog_channel_t *)channel->method_obj;
 	/* store STOP request, make sure there is no more activity and only then send the response */
 	recog_channel->stop_response = response;
-	LOG_INFO("<---------  Process STOP request ----------->")
+
+	apt_log(ALI_RECOG_LOG_MARK, APT_PRIO_INFO, "<----- Process STOP request ----->");
 	return TRUE;
 }
 
@@ -363,9 +346,7 @@ static apt_bool_t Ali_recog_channel_request_dispatch(mrcp_engine_channel_t *chan
 			processed = Ali_recog_channel_timers_start(channel,request,response);
 			break;
 		case RECOGNIZER_STOP:
-
 			processed = Ali_recog_channel_stop(channel,request,response);
-
 			break;
 		default:
 			break;
@@ -380,23 +361,27 @@ static apt_bool_t Ali_recog_channel_request_dispatch(mrcp_engine_channel_t *chan
 /** Callback is called from MPF engine context to destroy any additional data associated with audio stream */
 static apt_bool_t Ali_recog_stream_destroy(mpf_audio_stream_t *stream)
 {
+	LOG_INFO("<---------------- recog stream  destroy ------------------>")
 	return TRUE;
 }
 
 /** Callback is called from MPF engine context to perform any action before open */
 static apt_bool_t Ali_recog_stream_open(mpf_audio_stream_t *stream, mpf_codec_t *codec)
 {
+	LOG_INFO("<---------------- recog stream  open ------------------>")
 	return TRUE;
 }
 
 /** Callback is called from MPF engine context to perform any action after close */
 static apt_bool_t Ali_recog_stream_close(mpf_audio_stream_t *stream)
 {
+	LOG_INFO("<---------------- recog stream  close ------------------>")
 	Ali_recog_channel_t *recog_channel = (Ali_recog_channel_t *)stream->obj;
-	CRecogEngine<Ali_recog_channel>::recogEngine->EngineReocgStop(recog_channel);
-	LOG_INFO("<------- stream recog close channel ----->");
-	//apt_log(ALI_RECOG_LOG_MARK, APT_PRIO_INFO, "<------- stream recog close channel ----->");
-
+	if (recog_channel) {
+		if (AliEngine::recogEngine) {
+			AliEngine::recogEngine->EngineReocgStop(recog_channel);
+		}
+	}
 	return TRUE;
 }
 
@@ -477,7 +462,6 @@ static apt_bool_t Ali_recog_recognition_complete(Ali_recog_channel_t *recog_chan
 		//Ali_recog_result_load(recog_channel,message);
 	}
 
-
 	recog_channel->recog_request = NULL;
 	/* send asynch event */
 	return mrcp_engine_channel_message_send(recog_channel->channel,message);
@@ -486,11 +470,10 @@ static apt_bool_t Ali_recog_recognition_complete(Ali_recog_channel_t *recog_chan
 /** Callback is called from MPF engine context to write/send new frame */
 static apt_bool_t Ali_recog_stream_write(mpf_audio_stream_t *stream, const mpf_frame_t *frame)
 {
-	//LOG_INFO("<------ stream_write  ------>");
 	Ali_recog_channel_t *recog_channel = (Ali_recog_channel_t *)stream->obj;
-	if (recog_channel->stop_response) {
+	if(recog_channel->stop_response) {
 		/* send asynchronous response to STOP request */
-		mrcp_engine_channel_message_send(recog_channel->channel, recog_channel->stop_response);
+		mrcp_engine_channel_message_send(recog_channel->channel,recog_channel->stop_response);
 		recog_channel->stop_response = NULL;
 		recog_channel->recog_request = NULL;
 		return TRUE;
@@ -535,16 +518,58 @@ static apt_bool_t Ali_recog_stream_write(mpf_audio_stream_t *stream, const mpf_f
 				}
 			}
 		}
-		/*
-		if(recog_channel->audio_out) {
-			fwrite(frame->codec_frame.buffer,1,frame->codec_frame.size,recog_channel->audio_out);
-		}
-		*/
-		if (nullptr != frame) {
-			if (CRecogEngine<Ali_recog_channel>::recogEngine->EngineWriteFrame(recog_channel, frame) != APR_SUCCESS) {
-				LOG_ERROR("recog for write frame failed ....");
+
+		//if(recog_channel->audio_out) {
+		//	fwrite(frame->codec_frame.buffer,1,frame->codec_frame.size,recog_channel->audio_out);
+		//}
+
+		if (AliEngine::recogEngine) {
+			AliEngine::recogEngine->EngineWriteFrame(recog_channel, frame);
+			string reslut = AliEngine::recogEngine->EngineResultGet(recog_channel);
+			if (!reslut.empty()) 
+			{
+				Json::Value root;
+				Json::FastWriter write;
+
+				root["result"] = reslut;
+				string Result = write.write(root);
+
+				mrcp_recog_header_t *recog_header;
+				mrcp_message_t *message = mrcp_event_create(
+					recog_channel->recog_request,
+					RECOGNIZER_RECOGNITION_COMPLETE,
+					recog_channel->recog_request->pool);
+				if (!message) {
+					LOG_ERROR("");
+					return TRUE;
+				}
+
+				//创建资源头
+				recog_header = (mrcp_recog_header_t *)mrcp_resource_header_prepare(message);
+				if (recog_header) {
+					//先事件头添加完成码
+					recog_header->completion_cause = RECOGNIZER_COMPLETION_CAUSE_SUCCESS;
+					mrcp_resource_header_property_add(message, RECOGNIZER_HEADER_COMPLETION_CAUSE);
+				}
+				//添加识别状态
+				message->start_line.request_state = MRCP_REQUEST_STATE_COMPLETE;
+
+				//添加结果
+				apt_string_assign_n(&message->body, Result.c_str(), Result.length(), message->pool);
+
+				//添加结果的格式
+				mrcp_generic_header_t *generic_header = mrcp_generic_header_prepare(message);
+				if (generic_header) {
+					apt_string_assign(&generic_header->content_type, "application/json", message->pool);
+					mrcp_generic_header_property_add(message, GENERIC_HEADER_CONTENT_TYPE);
+				}
+				//发送异步事件
+				mrcp_engine_channel_message_send(recog_channel->channel, message);
 			}
 		}
+
+		
+
 	}
 	return TRUE;
 }
@@ -552,7 +577,7 @@ static apt_bool_t Ali_recog_stream_write(mpf_audio_stream_t *stream, const mpf_f
 static apt_bool_t Ali_recog_msg_signal(Ali_recog_msg_type_e type, mrcp_engine_channel_t *channel, mrcp_message_t *request)
 {
 	apt_bool_t status = FALSE;
-	Ali_recog_channel_t *Ali_channel =(Ali_recog_channel_t *) channel->method_obj;
+	Ali_recog_channel_t *Ali_channel = (Ali_recog_channel_t *)channel->method_obj;
 	Ali_recog_engine_t *Ali_engine = Ali_channel->Ali_engine;
 	apt_task_t *task = apt_consumer_task_base_get(Ali_engine->task);
 	apt_task_msg_t *msg = apt_task_msg_get(task);
@@ -596,42 +621,4 @@ static apt_bool_t Ali_recog_msg_process(apt_task_t *task, apt_task_msg_t *msg)
 			break;
 	}
 	return TRUE;
-}
-
-void WriteLog(apt_log_priority_e leve, const char * format,...) {
-
-	va_list arg_list;
-	va_start(arg_list, format);
-	char Logbuffer[LOG_BUF] = { 0 };
-	vsnprintf(Logbuffer, sizeof(Logbuffer), format, arg_list);
-	va_end(arg_list);
-	apt_log(ALI_RECOG_LOG_MARK, leve, "%s", Logbuffer);
-
-}
-
-//apr_status_t  RecogStart(void * channel, apr_thread_start_t proce_func)
-//{
-//	apr_status_t stu = APR_SUCCESS;
-//	stu = CRecogPool::GetRecogPool()->TaskPush(channel, proce_func);
-//	if(APR_SUCCESS != stu){
-//		LOG_ERROR("<----- TaskPush failed ...---->");
-//		return stu;
-//	}
-//	return stu;
-//}
-
-string	TimeToStr(apr_time_t nowTime,const char* format) {
-
-	apr_time_exp_t tm;
-	apr_time_exp_lt(&tm, nowTime);
-	char tmp[255] = { 0 };
-	apr_size_t size;
-	apr_strftime(tmp, &size, sizeof(tmp), format, &tm);
-	return tmp;
-}
-
-string  apr_error(apr_status_t stu) {
-	char errorTmp[1024] = { 0 };
-	apr_strerror(stu, errorTmp, sizeof(errorTmp));
-	return errorTmp;
 }

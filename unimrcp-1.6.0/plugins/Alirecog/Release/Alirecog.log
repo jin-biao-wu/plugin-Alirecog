@@ -1,8 +1,0 @@
-﻿  Ali_channel.cpp
-src\Ali_channel.cpp(1): fatal error C1083: 无法打开包括文件: “Ali_channel.h”: No such file or directory
-  Ali_channel_factory.cpp
-src\Ali_channel_factory.cpp(1): fatal error C1083: 无法打开包括文件: “Ali_channel_factory.h”: No such file or directory
-  Ali_recog_engine.cpp
-src\Ali_recog_engine.cpp(34): fatal error C1083: 无法打开包括文件: “Ali_channel_factory.h”: No such file or directory
-  Ali_recog_pool.cpp
-src\Ali_recog_pool.cpp(1): fatal error C1083: 无法打开包括文件: “Ali_recog_pool.h”: No such file or directory
