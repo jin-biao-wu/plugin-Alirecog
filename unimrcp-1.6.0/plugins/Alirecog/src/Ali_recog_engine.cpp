@@ -46,6 +46,7 @@ typedef struct Ali_recog_msg_t Ali_recog_msg_t;
 static apt_bool_t Ali_recog_engine_destroy(mrcp_engine_t *engine);
 static apt_bool_t Ali_recog_engine_open(mrcp_engine_t *engine);
 static apt_bool_t Ali_recog_engine_close(mrcp_engine_t *engine);
+static apt_bool_t Ali_recog_recognition_complete(Ali_recog_channel_t *recog_channel, mrcp_recog_completion_cause_e cause);
 static mrcp_engine_channel_t* Ali_recog_engine_channel_create(mrcp_engine_t *engine, apr_pool_t *pool);
 
 static const struct mrcp_engine_method_vtable_t engine_vtable = {
@@ -312,7 +313,6 @@ static apt_bool_t Ali_recog_channel_stop(mrcp_engine_channel_t *channel, mrcp_me
 	Ali_recog_channel_t *recog_channel = (Ali_recog_channel_t *)channel->method_obj;
 	/* store STOP request, make sure there is no more activity and only then send the response */
 	recog_channel->stop_response = response;
-
 	apt_log(ALI_RECOG_LOG_MARK, APT_PRIO_INFO, "<----- Process STOP request ----->");
 	return TRUE;
 }
@@ -453,7 +453,7 @@ static apt_bool_t Ali_recog_recognition_complete(Ali_recog_channel_t *recog_chan
 	if(recog_header) {
 		/* set completion cause */
 		recog_header->completion_cause = cause;
-		mrcp_resource_header_property_add(message,RECOGNIZER_HEADER_COMPLETION_CAUSE);
+		mrcp_resource_header_property_add(message, RECOGNIZER_HEADER_COMPLETION_CAUSE);
 	}
 	/* set request state */
 	message->start_line.request_state = MRCP_REQUEST_STATE_COMPLETE;
@@ -476,10 +476,14 @@ static apt_bool_t Ali_recog_stream_write(mpf_audio_stream_t *stream, const mpf_f
 		mrcp_engine_channel_message_send(recog_channel->channel,recog_channel->stop_response);
 		recog_channel->stop_response = NULL;
 		recog_channel->recog_request = NULL;
+		//RECOGNIZER_STATE_IDLE
 		return TRUE;
 	}
 
+
+	bool Complete = FALSE;
 	if(recog_channel->recog_request) {
+
 		mpf_detector_event_e det_event = mpf_activity_detector_process(recog_channel->detector,frame);
 		switch(det_event) {
 			case MPF_DETECTOR_EVENT_ACTIVITY:
@@ -490,13 +494,13 @@ static apt_bool_t Ali_recog_stream_write(mpf_audio_stream_t *stream, const mpf_f
 			case MPF_DETECTOR_EVENT_INACTIVITY:
 				apt_log(ALI_RECOG_LOG_MARK,APT_PRIO_INFO,"Detected Voice Inactivity " APT_SIDRES_FMT,
 					MRCP_MESSAGE_SIDRES(recog_channel->recog_request));
-				Ali_recog_recognition_complete(recog_channel,RECOGNIZER_COMPLETION_CAUSE_SUCCESS);
+				Ali_recog_recognition_complete(recog_channel, RECOGNIZER_COMPLETION_CAUSE_SUCCESS);
 				break;
 			case MPF_DETECTOR_EVENT_NOINPUT:
 				apt_log(ALI_RECOG_LOG_MARK,APT_PRIO_INFO,"Detected Noinput " APT_SIDRES_FMT,
 					MRCP_MESSAGE_SIDRES(recog_channel->recog_request));
 				if(recog_channel->timers_started == TRUE) {
-					Ali_recog_recognition_complete(recog_channel,RECOGNIZER_COMPLETION_CAUSE_NO_INPUT_TIMEOUT);
+					Ali_recog_recognition_complete(recog_channel, RECOGNIZER_COMPLETION_CAUSE_NO_INPUT_TIMEOUT);
 				}
 				break;
 			default:
@@ -522,11 +526,11 @@ static apt_bool_t Ali_recog_stream_write(mpf_audio_stream_t *stream, const mpf_f
 		//if(recog_channel->audio_out) {
 		//	fwrite(frame->codec_frame.buffer,1,frame->codec_frame.size,recog_channel->audio_out);
 		//}
-
+		
 		if (AliEngine::recogEngine) {
 			AliEngine::recogEngine->EngineWriteFrame(recog_channel, frame);
-			string reslut = AliEngine::recogEngine->EngineResultGet(recog_channel);
-			if (!reslut.empty()) 
+			string reslut = AliEngine::recogEngine->EngineRecogCompleted(recog_channel);
+			if (reslut.length() != 0 && recog_channel->recog_request)
 			{
 				Json::Value root;
 				Json::FastWriter write;
@@ -534,13 +538,14 @@ static apt_bool_t Ali_recog_stream_write(mpf_audio_stream_t *stream, const mpf_f
 				root["result"] = reslut;
 				string Result = write.write(root);
 
+				//创建一个mrcp状态
 				mrcp_recog_header_t *recog_header;
 				mrcp_message_t *message = mrcp_event_create(
 					recog_channel->recog_request,
-					RECOGNIZER_RECOGNITION_COMPLETE,
+					RECOGNIZER_INTERMEDIATE_COMPLETE,
 					recog_channel->recog_request->pool);
 				if (!message) {
-					LOG_ERROR("");
+					LOG_ERROR("<--------- create mrcp message failed ----------->");
 					return TRUE;
 				}
 
@@ -549,11 +554,10 @@ static apt_bool_t Ali_recog_stream_write(mpf_audio_stream_t *stream, const mpf_f
 				if (recog_header) {
 					//先事件头添加完成码
 					recog_header->completion_cause = RECOGNIZER_COMPLETION_CAUSE_SUCCESS;
-					mrcp_resource_header_property_add(message, RECOGNIZER_HEADER_COMPLETION_CAUSE);
+					mrcp_resource_header_property_add(message, RECOGNIZER_COMPLETION_CAUSE_SUCCESS);
 				}
-				//添加识别状态
-				message->start_line.request_state = MRCP_REQUEST_STATE_COMPLETE;
-
+				//添加事件状态
+				message->start_line.request_state = MRCP_REQUEST_STATE_INPROGRESS;
 				//添加结果
 				apt_string_assign_n(&message->body, Result.c_str(), Result.length(), message->pool);
 
@@ -564,6 +568,7 @@ static apt_bool_t Ali_recog_stream_write(mpf_audio_stream_t *stream, const mpf_f
 					mrcp_generic_header_property_add(message, GENERIC_HEADER_CONTENT_TYPE);
 				}
 				//发送异步事件
+				LOG_INFO("<----------- Send MRCP Result ------------->");
 				mrcp_engine_channel_message_send(recog_channel->channel, message);
 			}
 		}

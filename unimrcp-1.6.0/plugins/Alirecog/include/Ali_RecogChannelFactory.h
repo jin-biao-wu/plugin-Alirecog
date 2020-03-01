@@ -30,26 +30,10 @@ private:
 	CAliChannelFactory operator=(CAliChannelFactory&);
 
 public:
-		apt_bool_t Init(
-		apr_pool_t*pool,
-		apr_size_t MaxCh,
-		const char* Appkey,
-		const char * AccessKeyID,
-		const char * AccessKeySecret,
-		const char * Format = "pcm",
-		const char * SampleRate = "8000",
-		const char * intermediateResult = "",
-		const char * inverseText = "",
-		const char * voiceDetection = "",
-		const char * maxEndSilence = "",
-		const char * maxStartSilence = "",
-		const char * PunctuationPrediction="",
-		const char * CustomizationId = "",
-		const char * VocabularyId="",
-		const char * OutputFormat="",
-		const char * ContextParam="",
-		const char * recordPath = "../",
-		apt_bool_t	 record = FALSE);
+		apt_bool_t Init(apr_pool_t*		pool,
+						apr_size_t		MaxCh,
+						const char*		recordPath = "../",
+						apt_bool_t		record = FALSE);
 
 	void			Uinit();
 

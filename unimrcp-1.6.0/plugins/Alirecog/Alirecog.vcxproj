@@ -130,6 +130,10 @@
     <ClInclude Include="include\Ali_RecogDefine.h" />
     <ClInclude Include="include\Ali_RecogEngine.h" />
     <ClInclude Include="include\Ali_RecogPool.h" />
+    <ClInclude Include="include\Ali_RecogRecognizer.h" />
+    <ClInclude Include="include\Ali_RecogResource.h" />
+    <ClInclude Include="include\Ali_RecogResourceFactory.h" />
+    <ClInclude Include="include\Ali_RecogTranscriber.h" />
     <ClInclude Include="include\Ali_RecogUtil.h" />
     <ClInclude Include="include\RecogEngine.h" />
   </ItemGroup>
@@ -138,6 +142,10 @@
     <ClCompile Include="src\Ali_RecogChannelFactory.cpp" />
     <ClCompile Include="src\Ali_RecogEngine.cpp" />
     <ClCompile Include="src\Ali_RecogPool.cpp" />
+    <ClCompile Include="src\Ali_RecogRecognizer.cpp" />
+    <ClCompile Include="src\Ali_RecogResource.cpp" />
+    <ClCompile Include="src\Ali_RecogResourceFactory.cpp" />
+    <ClCompile Include="src\Ali_RecogTranscriber.cpp" />
     <ClCompile Include="src\Ali_RecogUtil.cpp" />
     <ClCompile Include="src\Ali_recog_engine.cpp" />
   </ItemGroup>

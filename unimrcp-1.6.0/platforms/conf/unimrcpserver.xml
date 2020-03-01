@@ -118,6 +118,13 @@
 	 	  
 	  <engine id="Ali-Recorder-1" name="Alirecog" enable="true">
 		<max-channel-count>20</max-channel-count>
+		
+		<!--设置 识别的方式 
+			recognizer  ： 一句话识别
+			transcriber ：实时识别
+		-->
+		<param name="SeepRecognizer" value="transcriber"/>
+		
 		<!--设置 appKey 必填参数, 请参照官网申请-->
 		<param name="appKey" value=""/>
 		
@@ -132,10 +139,7 @@
 		
 		<!--设置用户自定义参数-->
 		<param name="SampleRate" value="8000"/>
-		
-		<!--Ali SDK 日志，必须是绝对路径-->
-		<param name="LogDir" value="D:\src\unimrcp\New\unimrcp-1.6.0\platforms\ali-recog-skd.log"/>	
-		
+				
 		<!--设置一句话识别服务URL地址 如果是云端，不需要填-->
 		<param name="SpeechRecogUrl" value=""/>
 		
@@ -171,8 +175,11 @@
 		<!--设置用户自定义参数 可选-->
 		<param name="ContextParam" value=""/>
 		
+		<!--Ali SDK 日志，必须是绝对路径-->
+		<param name="LogDir" value="/usr/local/unimrcp/ali-recog-skd.log"/>	
+		
 		<!--录音文件的路径，必须是绝对路径-->
-		<param name="recordPath" value="D:\src\unimrcp\New\unimrcp-1.6.0\platforms\var"/>
+		<param name="recordPath" value="/usr/local/unimrcp/var"/>
 		
 		<!--是否录音 可选-->
 		<param name="record" value="true"/>		
@@ -217,9 +224,9 @@
 		<param name="pitch" value="0"/>
 		
 		<!--Ali SDK 日志，必须是绝对路径-->
-		<param name="LogDir" value="D:\src\unimrcp\New\unimrcp-1.6.0\platforms\ali-synth-skd.log"/>	
+		<param name="LogDir" value="/usr/local/unimrcp/ali-synth-skd.log"/>	
 		<!--录音文件的路径，必须是绝对路径-->
-		<param name="recordPath" value="D:\src\unimrcp\New\unimrcp-1.6.0\platforms\var"/>
+		<param name="recordPath" value="/usr/local/unimrcp/var"/>
 		
 		<!--是否录音 可选-->
 		<param name="record" value="true"/>	

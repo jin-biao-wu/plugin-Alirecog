@@ -37,8 +37,19 @@ bool	CAliRecogEngine::EngineInit(mrcp_engine_t* engine)
 	ALI_PARAM_GET(ContextParam, "ContextParam", "");
 	ALI_PARAM_GET(recordPath, "recordPath", (PATHDIA + string("..var").c_str()));
 	ALI_PARAM_GET(record, "record", "false");
-
+	ALI_PARAM_GET(recoger, "SeepRecognizer", "recognizer");
+	
 	bool brecord = (string(record) == "true");
+	bool brecoger = (string(recoger) == "recognizer");
+
+	LOG_INFO("<---------- Ali Recog Engine Init For [ %s ] ----------->", recoger);
+
+	if (brecoger) {
+		m_RecogMod = RECOGNIZER;
+	}
+	else {
+		m_RecogMod = TRANSCRIBER;
+	}
 
 	AliNlsClientInit(LogDir);
 
@@ -53,26 +64,35 @@ bool	CAliRecogEngine::EngineInit(mrcp_engine_t* engine)
 	if (m_ChFactory->Init(
 		m_engine->pool,
 		m_engine->config->max_channel_count,
-		appKey,
-		AccessKeyID,
-		AccessKeySecret,
-		Format,
-		SampleRate,
-		IntermediateResult,
-		InverseTextNormalization,
-		EnableVoiceDetection,
-		EndSilence,
-		StartSilence,
-		PunctuationPrediction,
-		CustomizationId,
-		VocabularyId,
-		OutputFormat,
-		ContextParam,
 		recordPath,
 		brecord
 		) != TRUE) 
 	{
 		LOG_ERROR("Ali Engine Init Channel Factory failed ! ! ! ");
+		return FALSE;
+	}
+
+	m_ReFactory = new CAliResourceFactory;
+	if (m_ReFactory->Init(m_engine->pool,
+		m_engine->config->max_channel_count, 
+		appKey,
+		AccessKeyID, 
+		AccessKeySecret, 
+		Format, 
+		SampleRate,
+		IntermediateResult, 
+		InverseTextNormalization, 
+		EnableVoiceDetection,
+		EndSilence, 
+		StartSilence, 
+		PunctuationPrediction, 
+		CustomizationId, 
+		VocabularyId,
+		OutputFormat, 
+		ContextParam, 
+		brecoger) != TRUE) 
+	{
+		LOG_ERROR("Ali Engine Init Resource Factory failed ! ! ! ");
 		return FALSE;
 	}
 
@@ -86,6 +106,12 @@ void	CAliRecogEngine::EngineUinit()
 		m_RecogPool->Uinit();
 		delete m_RecogPool;
 		m_RecogPool = nullptr;
+	}
+
+	if (m_ReFactory) {
+		m_ReFactory->Uinit();
+		delete m_ReFactory;
+		m_ReFactory = nullptr;
 	}
 
 	if (m_ChFactory) {
@@ -106,7 +132,8 @@ bool	CAliRecogEngine::EngineReocgStart(EngineChannel * pCh)
 	if (nullptr == pCh)
 		return FALSE;
 
-	CAliChannel * AliCh = nullptr;
+	CAliChannel *	AliCh = nullptr;
+	CAliResource *	AliRes = nullptr;
 	bool start = FALSE;
 
 	do {
@@ -115,8 +142,13 @@ bool	CAliRecogEngine::EngineReocgStart(EngineChannel * pCh)
 			LOG_ERROR("Ali Engine Recog Start failed , Get AliChannel Failed ! ! !");
 			break;
 		}
+		AliRes = m_ReFactory->NewResource();
+		if (!AliRes) {
+			LOG_ERROR("Ali Engine Recog Start failed , Get AliResource Failed ! ! !");
+			break;
+		}
 
-		if (!AliCh->Start(pCh)) {
+		if (!AliCh->Start(pCh, AliRes)) {
 			LOG_ERROR("Ali Engine Channel Recog Start Failed ! ! !");
 			break;
 		}
@@ -127,6 +159,8 @@ bool	CAliRecogEngine::EngineReocgStart(EngineChannel * pCh)
 		}
 
 		pCh->AliCh = AliCh;
+		pCh->AliRe = AliRes;
+
 		start = TRUE;
 
 	} while (FALSE);
@@ -134,9 +168,11 @@ bool	CAliRecogEngine::EngineReocgStart(EngineChannel * pCh)
 	if (!start) {
 		if (AliCh) {
 			AliCh->Stop();
-			m_ChFactory->DeleteChannel(AliCh);			
+			m_ChFactory->DeleteChannel(AliCh);
+			m_ReFactory->DeleteResource(AliRes);
 		}
 		pCh->AliCh = nullptr;
+		pCh->AliRe = nullptr;
 		return FALSE;
 	}
 	
@@ -158,22 +194,30 @@ int		CAliRecogEngine::EngineWriteFrame(EngineChannel * pCh, const mpf_frame_t *f
 
 bool	CAliRecogEngine::EngineReocgStop(EngineChannel * pCh)
 {
-	if (nullptr == pCh || nullptr == pCh->AliCh)
+	if (nullptr == pCh || nullptr == pCh->AliCh || nullptr == pCh->AliRe)
 		return TRUE;
 
 	pCh->AliCh->Stop();
 	m_ChFactory->DeleteChannel(pCh->AliCh); //回收通道资源
+	m_ReFactory->DeleteResource(pCh->AliRe); //回收识别资源
 	pCh->AliCh = nullptr;
+	pCh->AliRe = nullptr;
 
 	return TRUE;
 }
 
-const char*	CAliRecogEngine::EngineResultGet(EngineChannel * pCh)
+string	CAliRecogEngine::EngineRecogCompleted(EngineChannel * pCh)
 {
 	if (nullptr == pCh || nullptr == pCh->AliCh)
 		return "";
 
-	return pCh->AliCh->ResultGet();
+	return pCh->AliCh->RecogResultGet();
+}
+
+
+recog_mod	CAliRecogEngine::EngineRecogMod()
+{
+	return m_RecogMod;
 }
 
 void CAliRecogEngine::AliNlsClientInit(const char* logPath)

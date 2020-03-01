@@ -1,6 +1,10 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Alirecorg.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Ali_recog_engine.cpp
   Ali_RecogUtil.cpp
+  Ali_RecogTranscriber.cpp
+  Ali_RecogResourceFactory.cpp
+  Ali_RecogResource.cpp
+  Ali_RecogRecognizer.cpp
   Ali_RecogPool.cpp
   Ali_RecogEngine.cpp
   Ali_RecogChannelFactory.cpp

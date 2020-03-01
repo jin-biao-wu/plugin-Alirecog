@@ -64,6 +64,10 @@ ASR_OBJ=Ali_recog_engine.o \
 		Ali_RecogChannel.o \
 		Ali_RecogChannelFactory.o \
 		Ali_RecogEngine.o \
+		Ali_RecogResource.o \
+		Ali_RecogRecognizer.o \
+		Ali_RecogTranscriber.o \
+		Ali_RecogResourceFactory.o \
 		Ali_RecogPool.o \
 		Ali_RecogUtil.o
         
@@ -86,16 +90,26 @@ Ali_RecogChannelFactory.o:Ali_RecogChannelFactory.cpp
 Ali_RecogEngine.o:Ali_RecogEngine.cpp 
 	$(COMPLIE_CMD) Ali_RecogEngine.cpp
 
-fs_asr_channel.o:fs_asr_channel.cpp 
-	$(COMPLIE_CMD) fs_asr_channel.cpp
-
 Ali_recog_engine.o:Ali_recog_engine.cpp 
 	$(COMPLIE_CMD) Ali_recog_engine.cpp
 
 Ali_RecogPool.o:Ali_RecogPool.cpp 
 	$(COMPLIE_CMD) Ali_RecogPool.cpp
 	
- Ali_RecogUtil.o:Ali_RecogUtil.cpp 
-	$(COMPLIE_CMD) Ali_RecogUtil.cpp   
+Ali_RecogUtil.o:Ali_RecogUtil.cpp 
+	$(COMPLIE_CMD) Ali_RecogUtil.cpp
+	
+Ali_RecogRecognizer.o:Ali_RecogRecognizer.cpp 
+	$(COMPLIE_CMD) Ali_RecogRecognizer.cpp
+	
+Ali_RecogTranscriber.o:Ali_RecogTranscriber.cpp 
+	$(COMPLIE_CMD) Ali_RecogTranscriber.cpp  	
+	
+Ali_RecogResource.o:Ali_RecogResource.cpp 
+	$(COMPLIE_CMD) Ali_RecogResource.cpp 
+
+Ali_RecogResourceFactory.o:Ali_RecogResourceFactory.cpp 
+	$(COMPLIE_CMD) Ali_RecogResourceFactory.cpp 
+ 	
 clean:
 	rm -rf *.o Alirecog.so

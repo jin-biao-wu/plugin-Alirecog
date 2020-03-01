@@ -6,13 +6,22 @@
 #include "apt_consumer_task.h"
 #include "apt_log.h"
 
+#if _WIN32
+#include<windows.h>
+
+#else
+#include<pthread.h>
+#endif
+
 #define ALI_PARAM_GET(name,value,default_value)\
 											const char * name = nullptr;\
 											name = mrcp_engine_param_get(engine, value);\
 											if(nullptr == name)\
 											{ name = default_value;}
 
-#define MAX_QUEUE_SIZE	10 * 100
+#define MAX_QUEUE_SIZE			10 * 100
+#define SEEP_RECOGNIZER			"recognizer"
+#define SEEP_TRANSCRIBER		"Transcriber"
 
 #if _WIN32
 #define PATHDIA	 '\\'
@@ -21,6 +30,8 @@
 #endif
 
 class CAliChannel;
+class CAliResource;
+
 /** Declaration of Ali recognizer engine */
 struct Ali_recog_engine_t {
 	apt_consumer_task_t    *task;
@@ -44,6 +55,7 @@ struct Ali_recog_channel_t {
 	/** File to write utterance to */
 	FILE                    *audio_out;
 	CAliChannel				*AliCh;
+	CAliResource			*AliRe;
 };
 
 using EngineChannel = Ali_recog_channel_t;

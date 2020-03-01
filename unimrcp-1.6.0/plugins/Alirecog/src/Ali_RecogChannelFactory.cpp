@@ -21,79 +21,9 @@ CAliChannelFactory::~CAliChannelFactory()noexcept
 apt_bool_t CAliChannelFactory::Init(
 	apr_pool_t * pool,
 	apr_size_t	 MaxCh,
-	const char * Appkey,
-	const char * AccessKeyID,
-	const char * AccessKeySecret,
-	const char * Format,
-	const char * SampleRate,
-	const char * intermediateResult,
-	const char * inverseText,
-	const char * voiceDetection,
-	const char * maxEndSilence,
-	const char * maxStartSilence,
-	const char * PunctuationPrediction,
-	const char * CustomizationId,
-	const char * VocabularyId,
-	const char * OutputFormat,
-	const char * ContextParam,
 	const char * recordPath,
 	apt_bool_t	 record)
 {
-	/*
-	if (nullptr == pool)
-		return FALSE;
-
-	m_pool = pool;
-	m_appKey = Appkey;
-	m_AccessKey = AccessKeyID;
-	m_Secret =	AccessKeySecret;
-	m_Format =	Format;
-	m_SampleRate = SampleRate;
-
-	if (apr_thread_mutex_create(&m_Mutex, APR_THREAD_MUTEX_DEFAULT, m_pool) != APR_SUCCESS) {
-		//LOG_ERROR("init channelFac failed...");
-		return FALSE;
-	}
-	*/
-/*
-	unsigned int i = 0;
-	for (i = 0; i < MaxCh; i++)
-	{
-		AliChannel * AliCh = new AliChannel(
-		i,
-		Appkey, 
-		AccessKeyID, 
-		AccessKeySecret,
-		Format, 
-		SampleRate, 
-		intermediateResult, 
-		inverseText, 
-		voiceDetection, 
-		maxEndSilence, 
-		maxStartSilence,
-		PunctuationPrediction,
-		CustomizationId,
-		VocabularyId,
-		OutputFormat,
-		ContextParam,
-		recordPath, 
-		record);
-
-		if (AliCh->Init(m_pool)) {
-			AddChannel(AliCh);
-		}
-		else {
-			AliCh->Uninit();
-			delete AliCh;
-			AliCh = nullptr;
-			LOG_WARN("AliChannel init failed Ch id :%d", i);
-		}
-	}
-	m_Chid = i;
-
-	LOG_INFO("Init Chanel count:%d appKey:%s AccessKey:%s AccessSecret:%s Format:%s SampleRate:%s Record:%s RecordPath:%s",
-		MaxCh, Appkey, AccessKeyID, AccessKeySecret, Format, SampleRate, (record?"true":"false"), recordPath);
-*/
 	if (nullptr == pool)
 		return FALSE;
 
@@ -109,25 +39,7 @@ apt_bool_t CAliChannelFactory::Init(
 	for (; id < MaxCh; id++) {
 
 		CAliChannel * AliCh = new CAliChannel;
-		if (AliCh && AliCh->Init(	id,
-									m_pool, 
-									Appkey, 
-									AccessKeyID, 
-									AccessKeySecret, 
-									Format,
-									SampleRate, 
-									intermediateResult, 
-									inverseText, 
-									voiceDetection, 
-									maxEndSilence,
-									maxStartSilence, 
-									PunctuationPrediction,
-									CustomizationId, 
-									VocabularyId, 
-									OutputFormat, 
-									ContextParam, 
-									recordPath, 
-									record)) 
+		if (AliCh && AliCh->Init(id,m_pool,recordPath, record))
 		{
 			AddChannel(AliCh);
 		}

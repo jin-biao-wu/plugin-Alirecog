@@ -34,6 +34,18 @@
     <ClInclude Include="include\Ali_RecogUtil.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\Ali_RecogResource.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_RecogResourceFactory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_RecogTranscriber.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_RecogRecognizer.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Ali_recog_engine.cpp">
@@ -52,6 +64,18 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Ali_RecogUtil.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_RecogResource.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_RecogResourceFactory.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_RecogTranscriber.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_RecogRecognizer.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

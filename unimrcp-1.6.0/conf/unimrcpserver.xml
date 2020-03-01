@@ -19,7 +19,7 @@
     <!--
       IP address can also be specified explicitly.
     -->
-    <!-- <ip>10.10.0.1</ip> -->
+    <ip>0.0.0.0</ip>
 
     <!-- <ext-ip>a.b.c.d</ext-ip> -->
   </properties>
@@ -39,7 +39,7 @@
         By default, "ip" and "ext-ip" addresses, set in the properties, are used. These parameters can
         explicitly be specified per "sip-uas" by means of "sip-ip" and "sip-ext-ip" correspondingly.
       -->
-      <!-- <sip-ip>10.10.0.1</sip-ip> -->
+      <sip-ip>0.0.0.0</sip-ip>
       <!-- <sip-ext-ip>a.b.c.d</sip-ext-ip> -->
       <sip-port>8060</sip-port>
       <sip-transport>udp,tcp</sip-transport>
@@ -62,7 +62,7 @@
         By default, "ip" and "ext-ip" addresses, set in the properties, are used. These parameters can
         explicitly be specified per "rtsp-uas" by means of "rtsp-ip" and "rtsp-ext-ip" correspondingly.
       -->
-      <!-- <rtsp-ip>10.10.0.1</rtsp-ip> -->
+      <rtsp-ip>0.0.0.0</rtsp-ip>
       <!-- <rtsp-ext-ip>a.b.c.d</rtsp-ext-ip> -->
       <rtsp-port>1554</rtsp-port>
       <!-- <force-destination>true</force-destination> -->
@@ -81,7 +81,7 @@
         By default, "ip" address, set in the properties, is used. This parameter can explicitly be
         specified per "mrcpv2-uas" by means of "mrcp-ip".
       -->
-      <!-- <mrcp-ip>10.10.0.1</mrcp-ip> -->
+      <mrcp-ip>0.0.0.0</mrcp-ip>
       <mrcp-port>1544</mrcp-port>
       <max-connection-count>100</max-connection-count>
       <max-shared-use-count>100</max-shared-use-count>
@@ -103,7 +103,7 @@
         By default, "ip" and "ext-ip" addresses, set in the properties, are used. These parameters can
         explicitly be specified per "rtp-factory" by means of "rtp-ip" and "rtp-ext-ip" correspondingly.
       -->
-      <!-- <rtp-ip>10.10.0.1</rtp-ip> -->
+      <rtp-ip>0.0.0.0</rtp-ip>
       <!-- <rtp-ext-ip>a.b.c.d</rtp-ext-ip> -->
       <rtp-port-min>5000</rtp-port-min>
       <rtp-port-max>6000</rtp-port-max>
@@ -111,11 +111,79 @@
 
     <!-- Factory of plugins (MRCP engines) -->
     <plugin-factory>
-      <engine id="Demo-Synth-1" name="demosynth" enable="true"/>
-      <engine id="Demo-Recog-1" name="demorecog" enable="true"/>
+      <engine id="Demo-Synth-1" name="demosynth" enable="false"/>
+      <engine id="Demo-Recog-1" name="demorecog" enable="false"/>
       <engine id="Demo-Verifier-1" name="demoverifier" enable="true"/>
       <engine id="Recorder-1" name="mrcprecorder" enable="true"/>
-
+	 	  
+	  <engine id="Ali-Recorder-1" name="Alirecog" enable="true">
+		<max-channel-count>20</max-channel-count>
+		
+		<!--设置 识别的方式 
+			recognizer  ： 一句话识别
+			transcriber ：实时识别
+		-->
+		<param name="SeepRecognizer" value="transcriber"/>
+		
+		<!--设置 appKey 必填参数, 请参照官网申请-->
+		<param name="appKey" value=""/>
+		
+		<!--设置 AccessKeyID 必填参数, 请参照官网申请-->
+		<param name="AccessKeyID" value=""/>
+		
+		<!--设置 AccessKeySecret 必填参数, 请参照官网申请-->
+		<param name="AccessKeySecret" value=""/>
+		
+		<!--设置音频数据编码格式字段Format 可选参数, 目前支持pcm|opus|opu. 默认是pcm-->
+		<param name="Format" value="pcm"/>
+		
+		<!--设置用户自定义参数-->
+		<param name="SampleRate" value="8000"/>
+				
+		<!--设置一句话识别服务URL地址 如果是云端，不需要填-->
+		<param name="SpeechRecogUrl" value=""/>
+		
+		<!--是否返回中间识别结果, 可选参数. 默认false-->
+		<param name="IntermediateResult" value="false"/>
+		
+		<!--是否在后处理中添加标点, 可选参数. 默认false-->
+		<param name="PunctuationPrediction" value="false"/>
+		
+		<!--是否在后处理中执行ITN, 可选参数. 默认false-->
+		<param name="InverseTextNormalization" value="false"/>
+		
+		<!--是否启动自定义静音检测, 可选. 默认是False. 云端默认静音检测时间800ms.-->
+		<param name="EnableVoiceDetection" value="true"/>
+		
+		<!--允许的最大开始静音, 可选. 单位是这里是秒.-->
+		<!--需要先设置 EnableVoiceDetection 为true. 建议时间2~5秒.-->
+		<param name="StartSilence" value="5"/>
+		
+		<!--设置用户自定义参数 允许的最大结束静音, 可选, 单位是这里是秒-->
+		<!--需要先设置EnableVoiceDetection为true. 建议时间0~5秒.-->
+		<param name="EndSilence" value="0"/>
+		
+		<!--设置定制模型 定制模型id字符串 可选-->
+		<param name="CustomizationId" value=""/>
+		
+		<!--设置泛热词 定制泛热词id字符串 可选-->
+		<param name="VocabularyId" value=""/>
+		
+		<!--设置输出文本的编码格式 UTF-8 or GBK 可选-->
+		<param name="OutputFormat" value="GBK"/>
+		
+		<!--设置用户自定义参数 可选-->
+		<param name="ContextParam" value=""/>
+		
+		<!--Ali SDK 日志，必须是绝对路径-->
+		<param name="LogDir" value="/usr/local/unimrcp/ali-recog-skd.log"/>	
+		
+		<!--录音文件的路径，必须是绝对路径-->
+		<param name="recordPath" value="/usr/local/unimrcp/var"/>
+		
+		<!--是否录音 可选-->
+		<param name="record" value="true"/>		
+	  </engine>
       <!--
         Engines may have additional named ("max-channel-count") and generic (name/value) parameters.
         For example:
@@ -126,6 +194,45 @@
         <param name="..." value="..."/>
       </engine>
       -->
+	  <engine id="Ali-Synth-1" name="Alisynth" enable="true">
+		<max-channel-count>2</max-channel-count>
+		<!--设置 appKey 必填参数, 请参照官网申请-->
+		<param name="appKey" value=""/>
+		
+		<!--设置 AccessKeyID 必填参数, 请参照官网申请-->
+		<param name="AccessKey" value=""/>
+		
+		<!--设置 AccessKeySecret 必填参数, 请参照官网申请-->
+		<param name="AccessSecret" value=""/>
+		
+		<!--设置 发音人 可选参数, 请参照官网sdk文档-->
+		<param name="voice" value="Sijia"/>
+		
+		<!--设置 返回的数据的格式  可选参数, 请参照官网sdk文档（其实代码已经写死pcm） -->
+		<param name="format" value="pcm"/>
+		
+		<!--设置 音频的采样率，可选参数, 请参照官网sdk文档 对于mrcpserver 最好8000 -->
+		<param name="sample" value="8000"/>
+		
+		<!--设置 音量 可选参数, 请参照官网sdk文档-->
+		<param name="volume" value="50"/>
+		
+		<!--设置 语速 可选参数, 请参照官网sdk文档-->
+		<param name="speech" value="0"/>
+		
+		<!--设置 语调 可选参数, 请参照官网sdk文档-->
+		<param name="pitch" value="0"/>
+		
+		<!--Ali SDK 日志，必须是绝对路径-->
+		<param name="LogDir" value="/usr/local/unimrcp/ali-synth-skd.log"/>	
+		<!--录音文件的路径，必须是绝对路径-->
+		<param name="recordPath" value="/usr/local/unimrcp/var"/>
+		
+		<!--是否录音 可选-->
+		<param name="record" value="true"/>	
+		
+	  </engine>
+	  
     </plugin-factory>
   </components>
 
