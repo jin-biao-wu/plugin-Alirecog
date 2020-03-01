@@ -481,7 +481,6 @@ static apt_bool_t Ali_recog_stream_write(mpf_audio_stream_t *stream, const mpf_f
 	}
 
 
-	bool Complete = FALSE;
 	if(recog_channel->recog_request) {
 
 		mpf_detector_event_e det_event = mpf_activity_detector_process(recog_channel->detector,frame);

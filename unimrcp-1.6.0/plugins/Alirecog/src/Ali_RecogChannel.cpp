@@ -44,7 +44,7 @@ bool CAliChannel::Init(unsigned int id,
 		LOG_ERROR("Ali recog Channel Init frame queue failed id:%d ", m_id);
 		return FALSE;
 	}
-
+	/*
 	//LOG_INFO("Channel Init ChId:%d appKey:%s AccessKeyID:%s AccessKeySecret:%s Format:%s SampleRate:%s\
 	//		IntermediateResult:%s PunctuationPrediction:%s InverseTextNormalization:%s EnableVoiceDetection:%s \
 	//		StartSilence:%s EndSilence:%s CustomizationId:%s VocabularyId:%s OutputFormat:%s ContextParam:%s",
@@ -52,7 +52,7 @@ bool CAliChannel::Init(unsigned int id,
 	//		m_intermediateResult.c_str(), m_PunctuationPrediction.c_str(), m_inverseText.c_str(), m_voiceDetection.c_str(),
 	//		m_maxStartSilence.c_str(), m_maxEndSilence.c_str(), m_CustomizationId.c_str(), m_VocabularyId.c_str(), m_OutputFormat.c_str(),
 	//		m_ContextParam.c_str());
-
+	*/
 	return TRUE;
 }
 

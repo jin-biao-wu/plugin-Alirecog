@@ -2,8 +2,8 @@
 
 
 CAliResourceFactory::CAliResourceFactory() noexcept:
-													m_Mutex(nullptr),
-													m_pool(nullptr)
+													m_pool(nullptr),
+													m_Mutex(nullptr)
 {
 	m_ResourcePool.clear();
 	m_RePool.clear();
