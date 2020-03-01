@@ -352,4 +352,3 @@ void CAliTranscriber::DoSetChannel(CAliChannel * AliCh)
 	m_AliCh = AliCh;
 	return;
 }
-

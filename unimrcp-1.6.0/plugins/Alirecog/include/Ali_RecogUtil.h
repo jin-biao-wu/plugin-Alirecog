@@ -20,4 +20,3 @@ public:
 };
 
 #endif // !__ALI_RECOG_UTIL_H__
-

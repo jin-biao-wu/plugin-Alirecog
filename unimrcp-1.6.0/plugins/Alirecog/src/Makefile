@@ -1,4 +1,3 @@
-
 ifeq ($(shell uname -s),Linux)
     GPP=g++
 endif

@@ -33,6 +33,7 @@ public:
 private:
 	CAliTranscriber(CAliTranscriber&);
 	CAliTranscriber& operator=(CAliTranscriber&);
+	
 protected:
 	 void	OnTranscriptionStarted(NlsEvent* ev);
 	 void	OnTranscriptionResultChanged(NlsEvent* ev);
@@ -41,6 +42,7 @@ protected:
 	 void	OnSentenceEnd(NlsEvent* ev);
 	 void	OnTaskFailed(NlsEvent* ev);
 	 void	OnChannelClosed(NlsEvent* ev);
+	 
 public:
 	virtual bool			DoRecogRequestInit( const string& appKey,
 												const string& AccessKey,
@@ -70,4 +72,3 @@ private:
 };
 
 #endif
-

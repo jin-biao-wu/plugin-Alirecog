@@ -67,6 +67,5 @@ private:
 	string						m_result;
 };
 
-
 #endif // !__ALI_RECOG_RECOGNIZER_H__
 

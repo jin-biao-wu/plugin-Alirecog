@@ -17,7 +17,6 @@ CAliChannelFactory::~CAliChannelFactory()noexcept
 
 }
 
-
 apt_bool_t CAliChannelFactory::Init(
 	apr_pool_t * pool,
 	apr_size_t	 MaxCh,
@@ -175,7 +174,6 @@ void CAliChannelFactory::ulock()
 {
 	apr_thread_mutex_unlock(m_Mutex);
 }
-
 
 
 

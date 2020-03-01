@@ -53,7 +53,7 @@ public:
 public:
 	CAliResource*	NewResource();
 	void			DeleteResource(class CAliResource* resource);
-
+	
 	inline size_t	GetResourceSize()const {
 		return m_ResourcePool.size();
 	}
@@ -61,8 +61,8 @@ private:
 	//CAliChannel*	GetIdleChannel();
 	template<class ReType>
 	ReType *		NewResourceer()noexcept;
-
 	void			AddResource(class CAliResource* resource);
+	
 private:
 	inline void	lock();
 	inline void	ulock();
@@ -74,7 +74,6 @@ private:
 	ListRePool			m_RePool;
 	
 };
-
 
 #endif // !__ALI_RECOG_RESOURCE_FACTORY_H__
 

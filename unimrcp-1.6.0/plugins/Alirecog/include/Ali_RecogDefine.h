@@ -90,4 +90,3 @@ extern apt_log_source_t * ALI_LOG_RECOG_PLUGIN;
 	apt_log(ALI_RECOG_LOG_MARK,APT_PRIO_ERROR,fmt, ## __VA_ARGS__);
 
 #endif // !__ALI_RECOG_DEFINE_H__
-

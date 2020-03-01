@@ -34,6 +34,7 @@ public:
 public:
 	static CRecogEngine<Channel>* recogEngine;
 };
+
 template<class Channel>
 CRecogEngine<Channel>* CRecogEngine<Channel>::recogEngine = nullptr;
 
@@ -45,4 +46,3 @@ CRecogEngine<Channel>* CRecogEngine<Channel>::recogEngine = nullptr;
 //}
 
 #endif // !__RECOGENGINE_H__
-

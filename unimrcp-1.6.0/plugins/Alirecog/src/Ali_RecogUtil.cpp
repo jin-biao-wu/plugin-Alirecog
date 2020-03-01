@@ -17,3 +17,4 @@ string CAliUtil::aprTimeToStr(apr_time_t nowTime, const char* format)
 	apr_strftime(tmp, &size, sizeof(tmp), format, &tm);
 	return tmp;
 }
+

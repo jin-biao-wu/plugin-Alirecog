@@ -626,3 +626,4 @@ static apt_bool_t Ali_recog_msg_process(apt_task_t *task, apt_task_msg_t *msg)
 	}
 	return TRUE;
 }
+

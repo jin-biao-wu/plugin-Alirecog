@@ -109,6 +109,5 @@ private:
 	ResultQueue			m_resultQue;
 };
 
-
 #endif // !__ALI_RECOG_CHANNEL_H__
 

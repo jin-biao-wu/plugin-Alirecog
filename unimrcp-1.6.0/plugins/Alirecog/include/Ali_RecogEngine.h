@@ -51,8 +51,6 @@ private:
 	recog_mod				m_RecogMod;
 };
 
-
-
 #endif // !__ALI_RECOG_ENGINE_H__
 
 

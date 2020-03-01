@@ -24,3 +24,4 @@ apr_status_t CRecogPool::TaskPush(void * Channel, apr_thread_start_t proce_func)
 		return -1;
 	}
 }
+

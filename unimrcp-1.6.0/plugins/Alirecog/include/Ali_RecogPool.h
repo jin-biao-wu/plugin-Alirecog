@@ -38,7 +38,5 @@ private:
 	apr_pool_t*			m_pool;
 };
 
-
-
 #endif // !__ALI_RECOG_POOL_H__
 

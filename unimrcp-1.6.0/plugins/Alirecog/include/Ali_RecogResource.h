@@ -124,7 +124,5 @@ protected:
 	CAliChannel*		m_AliCh;
 };
 
-
-
 #endif // !__ALI_RECOG_RESOURCE_H__
 

@@ -65,7 +65,6 @@ private:
 
 };
 
-
 #endif // !__ALI_CHANNEL_FACTORY_H__
 
 

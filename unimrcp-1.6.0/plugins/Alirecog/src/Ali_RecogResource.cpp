@@ -222,3 +222,4 @@ bool CAliResource::DoCheakRecogToKen()
 	}
 	return ret;
 }
+
