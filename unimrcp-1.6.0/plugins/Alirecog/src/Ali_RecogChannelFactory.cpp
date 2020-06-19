@@ -133,8 +133,8 @@ CAliChannel *CAliChannelFactory::NewChannel()
 	lock();
 
 	AliCh = GetIdleChannel();
-	if (!AliCh) {
-		//Ìí¼Óµ½Ê¹ÓÃ³Ø
+	if (AliCh) {
+		//æ·»åŠ åˆ°ä½¿ç”¨æ± 
 		if (m_ChbusyPool.find(AliCh->GetChannelId()) == m_ChbusyPool.end())
 			m_ChbusyPool[AliCh->GetChannelId()] = AliCh;
 	}
@@ -151,11 +151,11 @@ void CAliChannelFactory::DeleteChannel(class CAliChannel* AliCh)
 
 	lock();
 
-	//Ìí¼Óµ½¿ÕÏÐ³Ø
+	//æ·»åŠ åˆ°ç©ºé—²æ± 
 	if (m_ChidlePool.find(AliCh->GetChannelId()) == m_ChidlePool.end())
 		m_ChidlePool[AliCh->GetChannelId()] = AliCh;
 
-	//ÒÆ³ýÊ¹ÓÃ³Ø
+	//ç§»é™¤ä½¿ç”¨æ± 
 	if (m_ChbusyPool.find(AliCh->GetChannelId()) != m_ChbusyPool.end())
 		m_ChbusyPool.erase(AliCh->GetChannelId());
 
