@@ -1,9 +1,0 @@
-﻿  Ali_Synth_util.cpp
-  Ali_Synth_pool.cpp
-  Ali_Synth_engine.cpp
-  Ali_SynthEngine.cpp
-  Ali_SynthChannelFactory.cpp
-  Ali_SynthChannel.cpp
-  正在生成代码...
-    正在创建库 D:\git\unimrcp\unimrcp-1.6.0\Debug\plugin\Alisynth.lib 和对象 D:\git\unimrcp\unimrcp-1.6.0\Debug\plugin\Alisynth.exp
-  Alisynth.vcxproj -> D:\git\unimrcp\unimrcp-1.6.0\Debug\plugin\Alisynth.dll
