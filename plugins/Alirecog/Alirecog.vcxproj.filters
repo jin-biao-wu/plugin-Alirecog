@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{aa55208c-f256-4fd2-9098-4e2c546edf7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{91c706fd-e348-47ec-b93e-332fc465591b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\RecogEngine.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_RecogChannelFactory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_RecogDefine.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_RecogEngine.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_RecogPool.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_RecogChannel.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_RecogUtil.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_RecogResource.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_RecogResourceFactory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_RecogTranscriber.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Ali_RecogRecognizer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Ali_recog_engine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_RecogChannelFactory.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_RecogPool.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_RecogChannel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_RecogEngine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_RecogUtil.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_RecogResource.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_RecogResourceFactory.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_RecogTranscriber.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ali_RecogRecognizer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
