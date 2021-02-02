@@ -45,7 +45,7 @@ CAliSynthChannel::CAliSynthChannel(apr_size_t id,
 									const char * pitch,
 									const bool	record,
 									const char * recordPaht)noexcept:
-									m_id(0),
+									m_id(id),
 									m_appKey(appKey),
 									m_AccessKey(AccessKeyID),
 									m_AccessSecret(AccessSecret),
